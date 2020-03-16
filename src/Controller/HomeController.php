@@ -4,23 +4,22 @@
 namespace App\Controller;
 
 use Exception;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController
+class HomeController extends AbstractController
 {
-    public function index() {
-        $number = random_int(0, 10);
-        return new Response($number);
-    }
+
 
     /**
-     * @Route("/message", name="message")
+     * @Route("/", name="message")
      * @return Response
      * @throws Exception
      */
-    public function message() {
-        $message = "Bonjour les technomakers";
-        return new Response($message);
+    public function index() {
+        return $this->render('notifications.html.twig');
     }
+
+
 }
