@@ -13,4 +13,14 @@ class HomeController
         $number = random_int(0, 10);
         return new Response($number);
     }
+
+    /**
+     * @Route("/message", name="message")
+     * @return Response
+     * @throws Exception
+     */
+    public function message() {
+        $message = "Bonjour les technomakers";
+        return new Response($message);
+    }
 }
