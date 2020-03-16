@@ -1,4 +1,27 @@
-{% extends "index.html.twig" %}
+{% extends "base.html.twig" %}
 {% block conntent  %}
-<h1> Page homme</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>name</th>
+            <th>price</th>
+            <th>quantity</th>
+            <th>Description</th>
+            <th>image</th>
+            <th>createAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in products %}
+            <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.price }}</td>
+                <td>{{ p.quantity }}</td>
+                <td>{{ p.description }}</td>
+                <td><img src="{{ p.imageurl }}" height="100" /></td>
+                <td>{{ p.createAt }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
