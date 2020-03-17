@@ -39,7 +39,7 @@ class PageController extends AbstractController
     private $imageUrl;
     private $createAt;
 */
-        $p1=new Product(1,"produit 1",2000,6,"smartphone","https://www.tunisiatech.tn/2984-large_default/-smartphone-techno-pop-2-s-pro-en-tunisie.jpg","2020-03-16");
+        $p1=new Product(1,"produit 1",2000,6,"smartphone","https://www.challenge.ma/wp-content/uploads/2017/02/smartphone.jpg","2020-03-16");
         $p2=new Product(2,"produit 2",5000,6,"tablet","https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6371/6371050_sd.jpg","2020-03-16");
         $p3=new Product(3,"produit 3",6000,6,"tablet","https://i.dell.com/sites/csimages/Video_Imagery/all/xps_7590_touch.png","2020-03-16");
 
