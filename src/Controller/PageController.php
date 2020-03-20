@@ -1,17 +1,30 @@
 <?php
-
-
 namespace App\Controller;
-
 use App\Entity\Product;
 use Exception;
 use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PageController extends AbstractController
 {
+
+    private $session;
+
+    /**
+     * PageController constructor.
+     * @param $session
+     */
+    public function __construct(SessionInterface $session)
+    {
+
+        $this->session = $session;
+    }
 
 
     /**
@@ -28,33 +41,49 @@ class PageController extends AbstractController
     /**
      * @Route("/home", name="message2")
      * @return Response
-     * @throws Exception
+
      */
     public function home() {
-/*    private $id;
-    private $name;
-    private $price;
-    private $quantity;
-    private $description;
-    private $imageUrl;
-    private $createAt;
-*/
-        $p1=new Product(1,"produit 1",2000,6,"smartphone","https://www.challenge.ma/wp-content/uploads/2017/02/smartphone.jpg","2020-03-16");
-        $p2=new Product(2,"produit 2",5000,6,"tablet","https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6371/6371050_sd.jpg","2020-03-16");
-        $p3=new Product(3,"produit 3",6000,6,"tablet","https://i.dell.com/sites/csimages/Video_Imagery/all/xps_7590_touch.png","2020-03-16");
-
-       $products = array($p1,$p2,$p3);
-        return $this->render('pages/home.html.twig', [
-            'products' => $products,
-        ]);
+        $this->session->start();
+        if ($this->session == null) {
+            $products = [
+                new Product("produit 1",2000,6,"smartphone","https://www.challenge.ma/wp-content/uploads/2017/02/smartphone.jpg"),
+                new Product("produit 2",5000,6,"tablet","https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6371/6371050_sd.jpg"),
+                new Product("produit 3",6000,6,"tablet","https://i.dell.com/sites/csimages/Video_Imagery/all/xps_7590_touch.png")
+            ];
+            $this->session->set('product', $products);
+        }
+        return $this->render('pages/home.html.twig',['productss' =>$this->session->get('product',[])]);
     }
 
     /**
-     * @Route("/add", name="add")
+     * @Route("/list", name="list")
+     */
+    public function list() {
+        $this->session->start();
+        $product = $this->session->get('product', []);
+        return new Response(var_dump($product));
+    }
+
+
+    /**
+     * @Route("/add", name="add", methods={"GET","POST"})
      * @return Response
      * @throws Exception
      */
-    public function addp() {
+    public function add( Request $request ) {
+        $this->session->start();
+        $products =$this->session->get('products', []);
+        if ($request->getMethod() === 'POST') {
+            $name = $_POST['name'];
+            $quantity = $_POST['quantity'];
+            $price = $_POST['price'];
+            $description = $_POST['description'];
+            $p = new Product($name, $price, $quantity, $description, "https://via.placeholder.com/100");
+
+            array_push($products,$p);
+            $this->session->set('products', $products);
+        }
         return $this->render('pages/add.html.twig');
     }
 

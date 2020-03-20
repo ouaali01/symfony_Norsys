@@ -5,33 +5,28 @@
 {% block conntent  %}
     <div class="col-sm-8">
     <h1> Ajoutre un produit  </h1>
-    <form action="/action_page.php">
+    <form action="{{ path('add') }}" method="POST">
         <div class="form-group">
             <label for="name">Nom Produit:</label>
-            <input type="text" class="form-control" id="name">
+            <input type="text" class="form-control" name="name" id="name">
         </div>
         <div class="form-group">
             <label for="price">Prix:</label>
-            <input type="number" class="form-control" id="price">
+            <input type="number" class="form-control" name="price" id="price">
         </div>
 
         <div class="form-group">
             <label for="quantity">Quantité:</label>
-            <input type="number" class="form-control" id="quantity">
+            <input type="number" class="form-control" name="quantity" id="quantity">
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <input type="text" class="form-control" id="description">
+            <input type="text" class="form-control" id="description" name="description">
         </div>
         <div class="form-group">
             <label for="price">Image:</label>
-            <input type="file" class="form-control" id="img">
+            <input type="file" class="form-control" id="img" name="img">
         </div>
-        <div class="form-group">
-            <label for="createAt">Date :</label>
-            <input type="date" class="form-control" id="createAt">
-        </div>
-
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
     </div>

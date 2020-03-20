@@ -14,25 +14,25 @@ class Product
     private $imageUrl;
     private $createAt;
 
+    private static $code = 1;
+
     /**
      * Product constructor.
-     * @param $id
      * @param $name
      * @param $price
      * @param $quantity
      * @param $description
      * @param $imageUrl
-     * @param $createAt
      */
-    public function __construct($id, $name, $price, $quantity, $description, $imageUrl, $createAt)
+    public function __construct($name, $price, $quantity, $description, $imageUrl)
     {
-        $this->id = $id;
+        $this->id = $this::$code++;
         $this->name = $name;
         $this->price = $price;
         $this->quantity = $quantity;
         $this->description = $description;
         $this->imageUrl = $imageUrl;
-        $this->createAt = $createAt;
+        $this->createAt = date('d-m-y');
     }
 
     /**
@@ -147,6 +147,10 @@ class Product
         $this->createAt = $createAt;
     }
 
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+    }
 
 
 }
