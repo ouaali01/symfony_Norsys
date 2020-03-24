@@ -46,7 +46,7 @@ class Product
      * @ORM\Column(type="string", length=255)
      */
     private $createAt;
-
+/*
     /**
      * Product constructor.
      * @param $name
@@ -56,6 +56,7 @@ class Product
      * @param $imageURL
      * @param $createAt
      */
+    /*
     public function __construct($name, $price, $quantity, $description, $imageURL)
     {
         $this->name = $name;
@@ -64,7 +65,7 @@ class Product
         $this->description = $description;
         $this->imageURL = $imageURL;
         $this->createAt = date('d-m-y');
-    }
+    }*/
 
     /**
      * @return mixed
