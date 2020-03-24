@@ -94,5 +94,5 @@ npm run watch
 ```
 
 * Symfony app: `http://localhost/`
-* phpMyAdmin: `http://localhost:8080/`
+* phpMyAdmin: `p`
 * Access to the DB: `jdbc:mysql://localhost:3306/sf4` (user/pass: sf4)

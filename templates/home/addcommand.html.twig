@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block conntent %}
+
+    <div class="col-sm-8">
+        <h1> Ajoutre un produit  </h1>
+        <form action="{{ path('addcmd') }}" method="POST">
+            <div class="form-group">
+                <label for="idproduit">Id Produit:</label>
+                <input type="number" class="form-control" name="idproduit" id="idproduit">
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Quantité:</label>
+                <input type="number" class="form-control" name="quantity" id="quantity">
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+{% endblock %}
