@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Category;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -19,21 +21,31 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(max=25)
      */
     private $name;
-
+//  * @Assert\Currency
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
+     * @Assert\NotBlank
+     * message = "La valeur entrée dans le champ prix est invalide."
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 10,
+     *      max = 10000,
+     * )
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=100)
      */
     private $description;
 
@@ -46,6 +58,11 @@ class Product
      * @ORM\Column(type="string", length=255)
      */
     private $createAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Category", cascade={"persist", "remove"})
+     */
+    private $category;
 /*
     /**
      * Product constructor.
@@ -94,9 +111,9 @@ class Product
     /**
      * @param mixed $price
      */
-    public function setPrice($price): void
+    public function setPrice( $price): void
     {
-        $this->price = $price;
+        $this->price = (int) $price;
     }
 
     /**
@@ -166,7 +183,19 @@ class Product
 
     public function __toString()
     {
-        // TODO: Implement __toString() method.
+     return  $this->getName();
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
 

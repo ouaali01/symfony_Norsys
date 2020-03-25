@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 use App\Entity\Product;
+use App\Form\ProductType;
 use Doctrine\DBAL\Types\IntegerType;
 use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Types\Integer;
@@ -31,9 +32,6 @@ class HomeController extends AbstractController
         return $this->render('base.html.twig');
     }
 
-
-
-
     /**
      * @Route("/home", name="home")
      * @return Response
@@ -54,27 +52,22 @@ class HomeController extends AbstractController
     public function  save( Request $request ) {
         $entityManager=$this->getDoctrine()->getManager();
             $product =new Product();
-            $form = $this->createFormBuilder($product)
-            ->add('name', TextType::class)
-            ->add('price', NumberType::class)
-            ->add('description', TextType::class)
-            ->add('quantity',NumberType::class)
-            ->add('save', SubmitType::class, ['label' => 'Ajout Produit'])
-            ->getForm();
-          //  $form = $this->createForm(Product::class, $product);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-           /* $data=$form->getData();
-            $product->setName($data['name']);
-            $product->setPrice($data['price']);
-            $product->setDescription($data['description']);
-            $product->setImageURL("https://www.challenge.ma/wp-content/uploads/2017/02/smartphone.jpg");
-            $product->setQuantity($data['quantity']);*/
+
+            $form = $this->createForm(ProductType::class, $product);
+            $form->get('TTC')->setData(true);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
             $product=$form->getData();
             $product->setImageURL("https://www.challenge.ma/wp-content/uploads/2017/02/smartphone.jpg");
             $product->setCreateAt(date('d-m-y'));
+            if ($form->get('TTC')->getData()) {
+                $prix = $form->get('price')->getData();
+                $prixTTC=$prix + ($prix * 0.2);
+                $product->setPrice($prixTTC);
+            }
             $entityManager->persist($product);
             $entityManager->flush();
+            return $this->redirectToRoute('home');
         }
 
 
