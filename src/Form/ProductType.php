@@ -25,7 +25,7 @@ class ProductType extends AbstractType
             ->add('description', TextType::class)
             ->add('quantity',NumberType::class)
             ->add('TTC', CheckboxType::class, ['mapped' => false])
-            ->add('category', CollectionType::class, [
+            ->add('category', CollectionType::class,['mapped' => false] ,[
                 'entry_type'   => ChoiceType::class,
                 'entry_options'  => [
                     'choices'  => [

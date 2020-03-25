@@ -4,6 +4,7 @@
 namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Service\ProductFormHandler;
 use Doctrine\DBAL\Types\IntegerType;
 use phpDocumentor\Reflection\File;
 use phpDocumentor\Reflection\Types\Integer;
@@ -20,7 +21,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class HomeController extends AbstractController
 
 {
-
 
 
     /**
@@ -49,31 +49,17 @@ class HomeController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function  save( Request $request ) {
-        $entityManager=$this->getDoctrine()->getManager();
+    public function  save(ProductFormHandler $productservice ,Request $request) {
             $product =new Product();
-
             $form = $this->createForm(ProductType::class, $product);
-            $form->get('TTC')->setData(true);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-            $product=$form->getData();
-            $product->setImageURL("https://www.challenge.ma/wp-content/uploads/2017/02/smartphone.jpg");
-            $product->setCreateAt(date('d-m-y'));
-            if ($form->get('TTC')->getData()) {
-                $prix = $form->get('price')->getData();
-                $prixTTC=$prix + ($prix * 0.2);
-                $product->setPrice($prixTTC);
-            }
-            $entityManager->persist($product);
-            $entityManager->flush();
-            return $this->redirectToRoute('home');
-        }
 
+            if ($productservice->handle($request,$form)){
+             return $this->redirectToRoute('home');
+             }
 
-        return $this->render('home/addproduct.html.twig', [
+          return $this->render('home/addproduct.html.twig', [
             'form' => $form->createView(),
-        ]);
+           ]);
 
     }
 
@@ -87,7 +73,6 @@ class HomeController extends AbstractController
 
         if ($request->getMethod() === 'POST') {
              /*($quantity, $product, $prodorder)*/
-
 
             $Idproduct=$request->request->get('idproduit');
             $product= $this->getDoctrine()->getRepository(Product::class)->find($Idproduct);
