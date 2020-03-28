@@ -2,6 +2,7 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
-index:
-  path: /home
-  controller: App\Controller\HomeController::index
+lists:
+  type    : rest
+  resource: App\Controller\ApiController
+  prefix : api
